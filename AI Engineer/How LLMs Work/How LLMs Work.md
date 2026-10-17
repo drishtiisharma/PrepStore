@@ -17,6 +17,29 @@ Tokens are the basic units of text that an LLM processes. They are not always wh
 *   **Example:** The word "unbelievable" might split into three tokens: "un", "believe", "able".
 *   **Impact:** Tokenization affects how the model understands structure and meaning. Shorter words often map to single tokens. Complex or rare words may split into multiple tokens.
 
+> **Tokenization Process**
+> 
+> Tokenization breaks text into smaller units before the model processes it. The system uses a predefined vocabulary list containing thousands of common words and sub-words. It scans the input text from left to right. It tries to match the longest possible sequence of characters to an entry in the vocabulary. If a full word exists in the vocabulary, it becomes one token. If the word is rare or complex, the system splits it into smaller known parts. This ensures every piece of text maps to a valid token ID. The split depends entirely on statistical frequency in the training data. Common prefixes like "un" and suffixes like "able" often have their own IDs because they appear in many different words.
+> 
+>  **Numerical Conversion and Processing**
+> 
+> Each token corresponds to a unique integer ID. The model does not read text directly. It converts these IDs into dense numerical vectors called embeddings. These vectors represent the meaning and position of each token in a high-dimensional space. The neural network processes these vectors through multiple layers. Each layer calculates relationships between all tokens in the sequence. This mechanism allows the model to understand context. It recognizes that "un" modifies the meaning of the root word. It also identifies "able" as a suffix indicating possibility. The network combines these signals to form a complete understanding of the original word, even though it was split into multiple parts.
+> 
+> **Prediction and Reconstruction**
+> 
+> After processing the input, the model predicts the next token ID. It calculates a probability score for every token in its vocabulary. Sampling parameters select one ID based on these scores. The model appends this new ID to the sequence. It repeats the process until it generates a complete response. Finally, the system converts the output token IDs back into text. It looks up each ID in the vocabulary map and joins the corresponding text pieces. This reconstruction step ensures the final output appears as readable words. The user sees coherent text, while the model operated entirely on numerical IDs and vectors throughout the process.
+> 
+> 
+> **Vocabulary Structure and Types**
+> 
+> LLMs use a fixed-size vocabulary, typically ranging from 30,000 to 150,000 entries, stored as a lookup table or hash map where each unique token string maps to a specific integer ID. This vocabulary is built using algorithms like Byte Pair Encoding (BPE) or WordPiece during training, which merge frequent character pairs into single tokens. For example, Qwen uses a BPE-based vocabulary with approximately 151,646 tokens, while Llama uses a SentencePiece (BPE variant) vocabulary of 32,000 tokens, and GPT-2 uses a BPE vocabulary of 50,257 tokens. The storage is essentially a static dictionary file included in the model's weights, allowing for instant conversion between text strings and numerical IDs without complex runtime calculations.
+> 
+> **Importance of Larger Vocabulary**
+> 
+> A larger vocabulary reduces the number of tokens needed to represent text, which improves processing speed and helps the model understand complex words more accurately.
+> It minimizes the fragmentation of complex or rare words, helping the model maintain better semantic coherence and meaning.
+> This efficiency lowers computational costs and memory usage during both training and inference by requiring fewer steps to process the same amount of text.
+
 #### 2. Context
 Context refers to the input text provided to the model. It includes the prompt and any previous conversation history.
 
